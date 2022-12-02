@@ -22,8 +22,9 @@ office_manager.grid(row=0, column=0, padx=10, pady=10, sticky="nsew")
 
 login_frame = ct.CTkFrame(
     fg_color="gray",
-    border_color="green",
+    border_color="brown",
     corner_radius=20,
+    border_width=2
 )
 login_frame.grid(row=1, column=0, padx=10, pady=10)
 
@@ -42,7 +43,7 @@ username = ct.CTkEntry(
     placeholder_text="Username",
     corner_radius=10,
     text_font=(basic_font, 10),
-    width=250,
+    width=500,
     height=35
 )
 username.pack(padx=10, pady=10)
@@ -52,7 +53,7 @@ password = ct.CTkEntry(
     placeholder_text="password",
     corner_radius=10,
     text_font=(basic_font, 10),
-    width=250,
+    width=500,
     height=35
 )
 password.pack(padx=10, pady=10)
@@ -66,16 +67,18 @@ login_btn = ct.CTkButton(
     text="Login",
     text_font=(basic_font, 10),
     corner_radius=10,
-    width=250,
+    width=500,
     height=35,
     image=login_icon
 )
 login_btn.pack(padx=10, pady=10)
 
-create_manager = ct.CTkLabel(
+create_manager = ct.CTkButton(
     root,
     text="Create your manager",
-    text_font=(basic_font, 12)
+    text_font=(basic_font, 12),
+    fg_color="gray",
+    width=500
 )
 create_manager.grid(row=2, column=0, padx=10, pady=10)
 
