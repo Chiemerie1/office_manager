@@ -1,7 +1,6 @@
 from tkinter import *
 import customtkinter as ct
 
-# from create_office import create_toplevel
 
 root = ct.CTk()
 root.geometry("900x700")
@@ -31,7 +30,7 @@ login_frame = ct.CTkFrame(
     corner_radius=20,
     border_width=2
 )
-login_frame.pack(padx=10, pady=10)
+login_frame.pack(padx=10, pady=100)
 
 office_manager = ct.CTkLabel(
     login_frame,
@@ -90,9 +89,107 @@ create_manager = ct.CTkButton(
     text="Create your manager",
     text_font=(basic_font, 12),
     fg_color="gray",
-    width=500
+    width=500,
+    command=lambda:raise_frame(create_window)
 )
 create_manager.grid(row=5, column=0, padx=10, pady=10, sticky="nsew")
+
+
+##### Create ######
+
+frame_1 = ct.CTkFrame(
+    create_window,
+    fg_color="gray",
+    corner_radius=20,
+    border_color="brown",
+    border_width=2,
+)
+frame_1.pack(padx=10, pady=100)
+
+create_office = ct.CTkLabel(
+    frame_1,
+    text="Create Office",
+    text_font=(basic_font, 14)
+)
+create_office.pack(padx=10, pady=10)
+
+
+First_name = ct.CTkEntry(
+    frame_1,
+    placeholder_text="First name",
+    corner_radius=10,
+    height=32,
+    width=500
+)
+First_name.pack(padx=10, pady=10)
+
+Last_name = ct.CTkEntry(
+    frame_1,
+    placeholder_text="Last name",
+    corner_radius=10,
+    height=35,
+    width=500
+)
+Last_name.pack(padx=10, pady=10)
+
+username = ct.CTkEntry(
+    frame_1,
+    placeholder_text="username",
+    corner_radius=10,
+    height=35,
+    width=500
+)
+username.pack(padx=10, pady=10)
+
+business_name = ct.CTkEntry(
+    frame_1,
+    placeholder_text="business name",
+    corner_radius=10,
+    width=500,
+    height=35
+)
+business_name.pack(padx=10, pady=10)
+
+password = ct.CTkEntry(
+    frame_1,
+    placeholder_text="password",
+    corner_radius=10,
+    width=500,
+    height=35
+)
+password.pack(padx=10, pady=10)
+
+confirm_password = ct.CTkEntry(
+    frame_1,
+    placeholder_text="Confirm password",
+    corner_radius=10,
+    width=500,
+    height=35
+)
+confirm_password.pack(padx=10, pady=10)
+
+create_btn = ct.CTkButton(
+    frame_1,
+    fg_color="brown",
+    text="Create office",
+    text_font=(basic_font, 10),
+    corner_radius=10,
+    width=500,
+    height=35
+)
+create_btn.pack(padx=10, pady=10)
+
+back_btn = ct.CTkButton(
+    frame_1,
+    fg_color=("brown","gray"),
+    text="Go back",
+    text_font=(basic_font, 10),
+    corner_radius=10,
+    width=500,
+    height=35,
+    command=lambda:raise_frame(login_window)
+)
+back_btn.pack(padx=10, pady=10)
 
 
 
