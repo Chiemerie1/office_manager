@@ -1,15 +1,17 @@
 from tkinter import *
 import customtkinter as ct
 
-create = ct.CTkToplevel()
-create.geometry("900x700")
-create.title("Create office")
-
 from PIL import ImageTk, Image
 
 import os
 
 PATH = os.path.dirname(os.path.realpath(__file__))
+
+create = ct.CTkToplevel()
+create.geometry("900x700")
+create.title("Create office")
+
+
 
 basic_font = "comic Sans Ms"
 
@@ -111,12 +113,14 @@ back_btn.grid(row=2, column=0, padx=10, pady=10)
 
 
 
+
 ##### Configurations #####
 
 create.rowconfigure(1, weight=1)
 create.rowconfigure(2, weight=1)
 
 create.columnconfigure(0, weight=1)
+
 
 
 create.mainloop()
