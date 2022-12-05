@@ -1,14 +1,12 @@
 from tkinter import *
 import customtkinter as ct
+from PIL import ImageTk, Image
+import os
 
 
 root = ct.CTk()
 root.geometry("900x700")
 root.title("Office Manager")
-
-from PIL import ImageTk, Image
-
-import os
 
 PATH = os.path.dirname(os.path.realpath(__file__))
 
