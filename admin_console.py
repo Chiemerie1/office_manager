@@ -43,6 +43,7 @@ employees = CTkButton(
     fg_color=("#d1d5d8", "#2a2d2e"),
     text_color=("#2a2d2e", "#d1d5d8"),
     hover_color="brown",
+    command=lambda:raise_frame(employees_main)
 )
 employees.pack(padx=10, pady=10)
 
@@ -52,7 +53,8 @@ inventory = CTkButton(
     text_font=(helvetica, 12, "bold"),
     fg_color=("#d1d5d8", "#2a2d2e"),
     text_color=("#2a2d2e", "#d1d5d8"),
-    hover_color="brown"
+    hover_color="brown",
+    command=lambda:raise_frame(inventory_main)
 )
 inventory.pack(padx=10, pady=10)
 
@@ -62,7 +64,8 @@ settings = CTkButton(
     text_font=(helvetica, 12, "bold"),
     fg_color=("#d1d5d8", "#2a2d2e"),
     text_color=("#2a2d2e", "#d1d5d8"),
-    hover_color="brown"
+    hover_color="brown",
+    command=lambda:raise_frame(settings_main)
 )
 settings.pack(padx=10, pady=10)
 
@@ -83,15 +86,76 @@ for main_frame in (employees_main, inventory_main, settings_main):
 
 
 ##### Employees frame #####
-name = CTkEntry(
+first_name = CTkEntry(
     employees_main,
-    placeholder_text="Name",
-    corner_radius=10,
+    placeholder_text="First name",
     text_font=(helvetica, 10),
-    width=400,
     height=35
 )
-name.grid(row=0, column=0, padx=10, pady=10, sticky="news")
+first_name.grid(row=0, column=0, padx=10, pady=10, sticky="news")
+
+Last_name = CTkEntry(
+    employees_main,
+    placeholder_text="Last name",
+    text_font=(helvetica, 10),
+    height=35
+)
+Last_name.grid(row=1, column=0, padx=10, pady=10, sticky="news")
+
+username = CTkEntry(
+    employees_main,
+    placeholder_text="Username",
+    text_font=(helvetica, 10),
+    height=35
+)
+username.grid(row=2, column=0, padx=10, pady=10, sticky="news")
+
+email = CTkEntry(
+    employees_main,
+    placeholder_text="Email",
+    text_font=(helvetica, 10),
+    height=35
+)
+email.grid(row=3, column=0, padx=10, pady=10, sticky="news")
+
+phone = CTkEntry(
+    employees_main,
+    placeholder_text="Phone no",
+    text_font=(helvetica, 10),
+    height=35
+)
+phone.grid(row=4, column=0, padx=10, pady=10, sticky="news")
+
+designation = CTkEntry(
+    employees_main,
+    placeholder_text="Designation",
+    text_font=(helvetica, 10),
+    height=35
+)
+designation.grid(row=5, column=0, padx=10, pady=10, sticky="news")
+
+password = CTkEntry(
+    employees_main,
+    placeholder_text="Password",
+    text_font=(helvetica, 10),
+    height=35
+)
+password.grid(row=6, column=0, padx=10, pady=10, sticky="news")
+
+save = CTkButton(
+    employees_main,
+    fg_color='brown',
+    text="Save",
+    text_font=(helvetica, 12, "bold"),
+    hover_color="gray",
+    height=35
+)
+save.grid(row=7, column=0, padx=10, pady=10, sticky="news")
+
+
+employee_info = Listbox(
+    
+)
 
 ##### Employees frame #####
 
@@ -107,5 +171,10 @@ console.columnconfigure(0, weight=1)
 console.columnconfigure(1, weight=6)
 
 console.rowconfigure(1, weight=1)
+
+employees_main.columnconfigure(0, weight=1)
+
+
+
 
 console.mainloop()
