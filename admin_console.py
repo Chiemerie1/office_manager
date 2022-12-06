@@ -8,7 +8,7 @@ import os
 helvetica = "Helvetica"
 
 console = CTkToplevel()
-console.geometry("900x700")
+console.geometry("1000x800")
 console.title("Admin Console")
 
 PATH = os.path.dirname(os.path.realpath(__file__))
@@ -86,64 +86,79 @@ for main_frame in (employees_main, inventory_main, settings_main):
 
 
 ##### Employees frame #####
-first_name = CTkEntry(
+
+frame1 = CTkFrame(
     employees_main,
+)
+frame1.grid(row=0, column=0, padx=10, pady=10, sticky="news")
+
+frame1.columnconfigure(0, weight=1)
+
+first_name = CTkEntry(
+    frame1,
     placeholder_text="First name",
     text_font=(helvetica, 10),
-    height=35
+    height=35,
+    width=300
 )
-first_name.grid(row=0, column=0, padx=10, pady=10, sticky="news")
+first_name.grid(row=0, column=0, padx=40, pady=5, sticky="news")
 
 Last_name = CTkEntry(
-    employees_main,
+    frame1,
     placeholder_text="Last name",
     text_font=(helvetica, 10),
-    height=35
+    height=35,
+    width=300
 )
-Last_name.grid(row=1, column=0, padx=10, pady=10, sticky="news")
+Last_name.grid(row=1, column=0, padx=40, pady=5, sticky="news")
 
 username = CTkEntry(
-    employees_main,
+    frame1,
     placeholder_text="Username",
     text_font=(helvetica, 10),
-    height=35
+    height=35,
+    width=300
 )
-username.grid(row=2, column=0, padx=10, pady=10, sticky="news")
+username.grid(row=2, column=0, padx=40, pady=5, sticky="news")
 
 email = CTkEntry(
-    employees_main,
+    frame1,
     placeholder_text="Email",
     text_font=(helvetica, 10),
-    height=35
+    height=35,
+    width=300
 )
-email.grid(row=3, column=0, padx=10, pady=10, sticky="news")
+email.grid(row=3, column=0, padx=40, pady=5, sticky="news")
 
 phone = CTkEntry(
-    employees_main,
+    frame1,
     placeholder_text="Phone no",
     text_font=(helvetica, 10),
-    height=35
+    height=35,
+    width=300
 )
-phone.grid(row=4, column=0, padx=10, pady=10, sticky="news")
+phone.grid(row=4, column=0, padx=40, pady=5, sticky="news")
 
 designation = CTkEntry(
-    employees_main,
+    frame1,
     placeholder_text="Designation",
     text_font=(helvetica, 10),
-    height=35
+    height=35,
+    width=300
 )
-designation.grid(row=5, column=0, padx=10, pady=10, sticky="news")
+designation.grid(row=5, column=0, padx=40, pady=5, sticky="news")
 
 password = CTkEntry(
-    employees_main,
+    frame1,
     placeholder_text="Password",
     text_font=(helvetica, 10),
-    height=35
+    height=35,
+    width=300
 )
-password.grid(row=6, column=0, padx=10, pady=10, sticky="news")
+password.grid(row=6, column=0, padx=40, pady=5, sticky="news")
 
 save = CTkButton(
-    employees_main,
+    frame1,
     fg_color='brown',
     text="Save",
     text_font=(helvetica, 12, "bold"),
@@ -151,8 +166,7 @@ save = CTkButton(
     height=35,
     relief=RAISED
 )
-save.grid(row=7, column=0, padx=10, pady=10, sticky="news")
-
+save.grid(row=7, column=0, padx=40, pady=5, sticky="news")
 employee_info = Listbox(
     employees_main,
     activestyle="underline",
@@ -163,12 +177,86 @@ employee_info = Listbox(
     yscrollcommand=YES,
     font=(helvetica, 12)
 )
-employee_info.grid(row=8, column=0, padx=10, pady=10, ipadx=10, sticky="news")
+employee_info.grid(row=1, column=0, padx=10, pady=10, ipadx=10, sticky="news")
 
 
 names = ["one", "two", "three", "four"]
 for num in names:
     employee_info.insert(END, num)
+
+##### Actions #####
+
+actions = CTkFrame(
+    employees_main,
+)
+actions.grid(row=0, column=1, padx=10, pady=10, sticky="news")
+
+edit_btn = CTkButton(
+    actions,
+    fg_color='gray',
+    text="Edit",
+    text_font=(helvetica, 12, "bold"),
+    hover_color="brown",
+    height=35,
+    width=300,
+    relief=RAISED
+).grid(row=0, column=0, padx=40, pady=5, sticky="news")
+
+delete_btn = CTkButton(
+    actions,
+    fg_color='gray',
+    text="Delete",
+    text_font=(helvetica, 12, "bold"),
+    hover_color="brown",
+    height=35,
+    width=300,
+    relief=RAISED
+).grid(row=1, column=0, padx=40, pady=5, sticky="news")
+
+freeze_btn = CTkButton(
+    actions,
+    fg_color='gray',
+    text="Freeze",
+    text_font=(helvetica, 12, "bold"),
+    hover_color="brown",
+    height=35,
+    width=300,
+    relief=RAISED
+).grid(row=2, column=0, padx=40, pady=5, sticky="news")
+
+status_btn = CTkButton(
+    actions,
+    fg_color='gray',
+    text="Status",
+    text_font=(helvetica, 12, "bold"),
+    hover_color="brown",
+    height=35,
+    width=300,
+    relief=RAISED
+).grid(row=3, column=0, padx=40, pady=5, sticky="news")
+
+actions.columnconfigure(0, weight=1)
+
+##### Actions #####
+
+##### benefits #####
+benefits_frame = CTkFrame(
+    employees_main,
+)
+benefits_frame.grid(row=1, column=1, padx=10, pady=10, sticky="news")
+
+benefits_title = CTkLabel(
+    benefits_frame,
+    text="Employee Benefits",
+    text_font=(helvetica, 12, "bold"),
+).grid(row=0, column=0, padx=10, pady=5)
+
+benefits_frame.columnconfigure(0, weight=1)
+
+##### benefits #####
+
+
+
 ##### Employees frame #####
 
 
@@ -179,14 +267,22 @@ raise_frame(employees_main)
 
 
 ##### grid Configurations #####
+##### console #####
 console.columnconfigure(0, weight=1)
-console.columnconfigure(1, weight=6)
+console.columnconfigure(1, weight=5)
 
 console.rowconfigure(1, weight=1)
+##### console #####
 
+##### Employee main #####
 employees_main.columnconfigure(0, weight=1)
+employees_main.columnconfigure(1, weight=1)
 
-employees_main.rowconfigure(8, weight=1)
+
+employees_main.rowconfigure(0, weight=1)
+employees_main.rowconfigure(1, weight=5)
+##### Employee main #####
+##### grid Configurations #####
 
 
 
