@@ -148,15 +148,27 @@ save = CTkButton(
     text="Save",
     text_font=(helvetica, 12, "bold"),
     hover_color="gray",
-    height=35
+    height=35,
+    relief=RAISED
 )
 save.grid(row=7, column=0, padx=10, pady=10, sticky="news")
 
-
 employee_info = Listbox(
-    
+    employees_main,
+    activestyle="underline",
+    bg="gray25",
+    highlightcolor="brown",
+    selectbackground="brown",
+    takefocus=TRUE,
+    yscrollcommand=YES,
+    font=(helvetica, 12)
 )
+employee_info.grid(row=8, column=0, padx=10, pady=10, ipadx=10, sticky="news")
 
+
+names = ["one", "two", "three", "four"]
+for num in names:
+    employee_info.insert(END, num)
 ##### Employees frame #####
 
 
@@ -173,6 +185,8 @@ console.columnconfigure(1, weight=6)
 console.rowconfigure(1, weight=1)
 
 employees_main.columnconfigure(0, weight=1)
+
+employees_main.rowconfigure(8, weight=1)
 
 
 
