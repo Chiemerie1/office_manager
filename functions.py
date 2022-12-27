@@ -1,4 +1,5 @@
 from tkinter import *
-import customtkinter as ct
+from customtkinter import *
+
 
 

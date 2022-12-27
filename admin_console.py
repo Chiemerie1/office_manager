@@ -3,6 +3,7 @@ from customtkinter import *
 from PIL import Image, ImageTk
 import os
 
+from . import var
 
 
 helvetica = "Helvetica"
@@ -96,6 +97,7 @@ frame1.columnconfigure(0, weight=1)
 
 first_name = CTkEntry(
     frame1,
+    textvariable=var.first_name,
     placeholder_text="First name",
     text_font=(helvetica, 10),
     height=35,
@@ -105,6 +107,7 @@ first_name.grid(row=0, column=0, padx=40, pady=5, sticky="news")
 
 Last_name = CTkEntry(
     frame1,
+    textvariable=var.last_name,
     placeholder_text="Last name",
     text_font=(helvetica, 10),
     height=35,
@@ -114,6 +117,7 @@ Last_name.grid(row=1, column=0, padx=40, pady=5, sticky="news")
 
 username = CTkEntry(
     frame1,
+    textvariable=var. username,
     placeholder_text="Username",
     text_font=(helvetica, 10),
     height=35,
@@ -123,6 +127,7 @@ username.grid(row=2, column=0, padx=40, pady=5, sticky="news")
 
 email = CTkEntry(
     frame1,
+    textvariable=var.email,
     placeholder_text="Email",
     text_font=(helvetica, 10),
     height=35,
@@ -132,6 +137,7 @@ email.grid(row=3, column=0, padx=40, pady=5, sticky="news")
 
 phone = CTkEntry(
     frame1,
+    textvariable=var.phone_no,
     placeholder_text="Phone no",
     text_font=(helvetica, 10),
     height=35,
@@ -141,6 +147,7 @@ phone.grid(row=4, column=0, padx=40, pady=5, sticky="news")
 
 designation = CTkEntry(
     frame1,
+    textvariable=var.desg,
     placeholder_text="Designation",
     text_font=(helvetica, 10),
     height=35,
@@ -150,6 +157,7 @@ designation.grid(row=5, column=0, padx=40, pady=5, sticky="news")
 
 password = CTkEntry(
     frame1,
+    textvariable=var.Password,
     placeholder_text="Password",
     text_font=(helvetica, 10),
     height=35,
