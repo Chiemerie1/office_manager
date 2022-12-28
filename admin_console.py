@@ -138,20 +138,6 @@ frame1.grid(row=0, column=0, padx=10, pady=10, sticky="news")
 
 frame1.columnconfigure(0, weight=1)
 
-
-
-#### Employee info ####
-# first_name = StringVar()
-# last_name = StringVar()
-# username = StringVar()
-# email = StringVar()
-# phone_no = StringVar()
-# desg = StringVar()
-# password = StringVar()
-# #### Employee info ####
-
-
-
 first_name = CTkEntry(
     frame1,
     placeholder_text="First name",
@@ -236,14 +222,21 @@ employee_info = Listbox(
     selectbackground="brown",
     takefocus=TRUE,
     yscrollcommand=YES,
-    font=(helvetica, 12)
+    font=(helvetica, 12),
+    fg="white"
 )
 employee_info.grid(row=1, column=0, padx=10, pady=10, ipadx=10, sticky="news")
 
+######### Displaying info on 
+names = []
+def show_info():
+    for d in employee_table.find():
+        names.append(d["first_name"])
 
-names = ["one", "two", "three", "four"]
-for num in names:
-    employee_info.insert(END, num)
+show_info()
+
+for name in names:
+    employee_info.insert(END, name)
 
 ##### Actions #####
 
