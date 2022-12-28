@@ -3,7 +3,13 @@ from customtkinter import *
 from PIL import Image, ImageTk
 import os
 
-from . import var
+from pymongo import MongoClient
+
+db_client = MongoClient("mongodb://localhost:27017/")
+db = db_client["office_manager"]
+employee_table = db["employee"]
+
+
 
 
 helvetica = "Helvetica"
@@ -12,7 +18,44 @@ console = CTkToplevel()
 console.geometry("1000x800")
 console.title("Admin Console")
 
+
 PATH = os.path.dirname(os.path.realpath(__file__))
+
+
+
+#### Functions ####
+def db_save():
+    employee_info = [
+        first_name.get(),
+        last_name.get(),
+        username.get(),
+        email.get(),
+        phone.get(),
+        designation.get(),
+        password.get()
+    ]
+    for x in range(len(employee_info)):
+        if employee_info[x] != "":
+            emp_dict = {
+            "first_name": employee_info[0],
+            "last_name": employee_info[1],
+            "username": employee_info[2],
+            "email": employee_info[3],
+            "phone no": employee_info[4],
+            "desg": employee_info[5],
+            "password": employee_info[6]
+            }
+
+    employee = employee_table.insert_one(emp_dict)
+
+    first_name.delete(0, END)
+    last_name.delete(0, END),
+    username.delete(0, END),
+    email.delete(0, END),
+    phone.delete(0, END),
+    designation.delete(0, END),
+    password.delete(0, END)
+
 
 ##### Title #####
 title_frame = CTkFrame(
@@ -95,9 +138,22 @@ frame1.grid(row=0, column=0, padx=10, pady=10, sticky="news")
 
 frame1.columnconfigure(0, weight=1)
 
+
+
+#### Employee info ####
+# first_name = StringVar()
+# last_name = StringVar()
+# username = StringVar()
+# email = StringVar()
+# phone_no = StringVar()
+# desg = StringVar()
+# password = StringVar()
+# #### Employee info ####
+
+
+
 first_name = CTkEntry(
     frame1,
-    textvariable=var.first_name,
     placeholder_text="First name",
     text_font=(helvetica, 10),
     height=35,
@@ -105,19 +161,17 @@ first_name = CTkEntry(
 )
 first_name.grid(row=0, column=0, padx=40, pady=5, sticky="news")
 
-Last_name = CTkEntry(
+last_name = CTkEntry(
     frame1,
-    textvariable=var.last_name,
     placeholder_text="Last name",
     text_font=(helvetica, 10),
     height=35,
     width=300
 )
-Last_name.grid(row=1, column=0, padx=40, pady=5, sticky="news")
+last_name.grid(row=1, column=0, padx=40, pady=5, sticky="news")
 
 username = CTkEntry(
     frame1,
-    textvariable=var. username,
     placeholder_text="Username",
     text_font=(helvetica, 10),
     height=35,
@@ -127,7 +181,6 @@ username.grid(row=2, column=0, padx=40, pady=5, sticky="news")
 
 email = CTkEntry(
     frame1,
-    textvariable=var.email,
     placeholder_text="Email",
     text_font=(helvetica, 10),
     height=35,
@@ -137,7 +190,6 @@ email.grid(row=3, column=0, padx=40, pady=5, sticky="news")
 
 phone = CTkEntry(
     frame1,
-    textvariable=var.phone_no,
     placeholder_text="Phone no",
     text_font=(helvetica, 10),
     height=35,
@@ -147,7 +199,6 @@ phone.grid(row=4, column=0, padx=40, pady=5, sticky="news")
 
 designation = CTkEntry(
     frame1,
-    textvariable=var.desg,
     placeholder_text="Designation",
     text_font=(helvetica, 10),
     height=35,
@@ -157,7 +208,6 @@ designation.grid(row=5, column=0, padx=40, pady=5, sticky="news")
 
 password = CTkEntry(
     frame1,
-    textvariable=var.Password,
     placeholder_text="Password",
     text_font=(helvetica, 10),
     height=35,
@@ -172,9 +222,12 @@ save = CTkButton(
     text_font=(helvetica, 12, "bold"),
     hover_color="gray",
     height=35,
-    relief=RAISED
+    relief=RAISED,
+    command=db_save
 )
 save.grid(row=7, column=0, padx=40, pady=5, sticky="news")
+
+
 employee_info = Listbox(
     employees_main,
     activestyle="underline",
@@ -294,5 +347,6 @@ employees_main.rowconfigure(1, weight=5)
 
 
 
-
 console.mainloop()
+
+
