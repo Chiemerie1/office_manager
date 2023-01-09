@@ -24,6 +24,7 @@ PATH = os.path.dirname(os.path.realpath(__file__))
 
 
 #### Functions ####
+#### Saving to DB ####
 def db_save():
     employee_info = [
         first_name.get(),
@@ -55,6 +56,22 @@ def db_save():
     phone.delete(0, END),
     designation.delete(0, END),
     password.delete(0, END)
+
+    clear_list()
+
+    show_info()
+
+
+##### deleting from DB #####
+def db_delete():
+    for d in employee_info.curselection():
+        first_name = {"first_name": employee_info.get(d)}
+    delete = employee_table.delete_one(first_name)
+    clear_list()
+    show_info()
+
+
+
 
 
 ##### Title #####
@@ -227,16 +244,16 @@ employee_info = Listbox(
 )
 employee_info.grid(row=1, column=0, padx=10, pady=10, ipadx=10, sticky="news")
 
-######### Displaying info on 
-names = []
+##### Displaying info on list box #####
+
+def clear_list():
+    employee_info.delete(0, END)
+
 def show_info():
     for d in employee_table.find():
-        names.append(d["first_name"])
-
+        employee_info.insert(END, d["first_name"])
 show_info()
-
-for name in names:
-    employee_info.insert(END, name)
+   
 
 ##### Actions #####
 
@@ -264,7 +281,8 @@ delete_btn = CTkButton(
     hover_color="brown",
     height=35,
     width=300,
-    relief=RAISED
+    relief=RAISED,
+    command=db_delete
 ).grid(row=1, column=0, padx=40, pady=5, sticky="news")
 
 freeze_btn = CTkButton(
@@ -288,6 +306,7 @@ status_btn = CTkButton(
     width=300,
     relief=RAISED
 ).grid(row=3, column=0, padx=40, pady=5, sticky="news")
+
 
 actions.columnconfigure(0, weight=1)
 
