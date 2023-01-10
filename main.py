@@ -3,6 +3,7 @@ import customtkinter as ct
 from PIL import ImageTk, Image
 import os
 from pymongo import MongoClient
+from admin_console import admin
 
 
 db_client = MongoClient("mongodb://localhost:27017/")
@@ -20,6 +21,7 @@ PATH = os.path.dirname(os.path.realpath(__file__))
 basic_font = "comic Sans Ms"
 
 ##### fn #####
+##### creating manager #####
 def save_manager():
 
     manager_info_dict = {}
@@ -50,6 +52,37 @@ def save_manager():
     business_name.delete(0, END),
     password.delete(0, END),
     confirm_password.delete(0, END)
+
+
+def exit_login_window():
+    root.destroy()
+
+
+##### login #####
+def manager_login():
+    returned_usename = []
+    manager_username = login_username.get()
+    manager_password = login_password.get()
+    
+    query_db = create_manager.find()
+    for query in query_db:
+        returned_usename.append(query["username"])
+
+    if manager_username in returned_usename:
+        username_exists = {
+            "username": manager_username
+        }
+        query_db = create_manager.find_one(username_exists)
+        if query_db["password"] == manager_password:
+            exit_login_window()
+            admin()
+            
+        else:
+            login_btn.configure(text="Incorrect login credentials", fg_color="red")
+    else:
+        login_btn.configure(text="username not found", fg_color="red")
+    
+
 
 
 
@@ -88,7 +121,7 @@ logo = Label(
 )
 logo.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
 
-username = ct.CTkEntry(
+login_username = ct.CTkEntry(
     login_frame,
     placeholder_text="Username",
     corner_radius=10,
@@ -96,9 +129,9 @@ username = ct.CTkEntry(
     width=500,
     height=35
 )
-username.grid(row=2, column=0, padx=10, pady=10, sticky="nsew")
+login_username.grid(row=2, column=0, padx=10, pady=10, sticky="nsew")
 
-password = ct.CTkEntry(
+login_password = ct.CTkEntry(
     login_frame,
     placeholder_text="password",
     corner_radius=10,
@@ -106,7 +139,7 @@ password = ct.CTkEntry(
     width=500,
     height=35
 )
-password.grid(row=3, column=0, padx=10, pady=10, sticky="nsew")
+login_password.grid(row=3, column=0, padx=10, pady=10, sticky="nsew")
 
 login_icon = Image.open(PATH + "\img\enter.png").resize((28,28))
 login_icon = ImageTk.PhotoImage(login_icon)
@@ -119,7 +152,8 @@ login_btn = ct.CTkButton(
     corner_radius=10,
     width=500,
     height=35,
-    image=login_icon
+    image=login_icon,
+    command=manager_login
 )
 login_btn.grid(row=4, column=0, padx=10, pady=10, sticky="nsew")
 
