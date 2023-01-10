@@ -58,7 +58,6 @@ def db_save():
     password.delete(0, END)
 
     clear_list()
-
     show_info()
 
 
@@ -69,6 +68,21 @@ def db_delete():
     delete = employee_table.delete_one(first_name)
     clear_list()
     show_info()
+
+
+#### Viewing employee details ###
+def view_employee_details():
+    for name in employee_info.curselection():
+        name = employee_info.get(name)
+        name_dict = {"first_name": name}
+        view = employee_table.find_one(name_dict)
+    emp_name_view.configure(text=view["first_name"] +"  "+ view["last_name"])
+    emp_username_view.configure(text=view["username"])
+    emp_email_view.configure(text=view["email"])
+    emp_phone_view.configure(text=view["phone no"])
+    emp_desg_view.configure(text=view["desg"])
+    emp_password_view.configure(text=view["password"])
+    
 
 
 
@@ -253,6 +267,7 @@ def show_info():
     for d in employee_table.find():
         employee_info.insert(END, d["first_name"])
 show_info()
+
    
 
 ##### Actions #####
@@ -271,7 +286,8 @@ edit_btn = CTkButton(
     height=35,
     width=300,
     relief=RAISED
-).grid(row=0, column=0, padx=40, pady=5, sticky="news")
+)
+edit_btn.grid(row=0, column=0, padx=40, pady=5, sticky="news")
 
 delete_btn = CTkButton(
     actions,
@@ -283,7 +299,8 @@ delete_btn = CTkButton(
     width=300,
     relief=RAISED,
     command=db_delete
-).grid(row=1, column=0, padx=40, pady=5, sticky="news")
+)
+delete_btn.grid(row=1, column=0, padx=40, pady=5, sticky="news")
 
 freeze_btn = CTkButton(
     actions,
@@ -294,25 +311,29 @@ freeze_btn = CTkButton(
     height=35,
     width=300,
     relief=RAISED
-).grid(row=2, column=0, padx=40, pady=5, sticky="news")
+)
+freeze_btn.grid(row=2, column=0, padx=40, pady=5, sticky="news")
 
-status_btn = CTkButton(
+view_btn = CTkButton(
     actions,
     fg_color='gray',
-    text="Status",
+    text="View",
     text_font=(helvetica, 12, "bold"),
     hover_color="brown",
     height=35,
     width=300,
-    relief=RAISED
-).grid(row=3, column=0, padx=40, pady=5, sticky="news")
+    relief=RAISED,
+    command=view_employee_details
+)
+view_btn.grid(row=3, column=0, padx=40, pady=5, sticky="news")
+
 
 
 actions.columnconfigure(0, weight=1)
 
 ##### Actions #####
 
-##### benefits #####
+##### Employee Information #####
 benefits_frame = CTkFrame(
     employees_main,
 )
@@ -320,11 +341,144 @@ benefits_frame.grid(row=1, column=1, padx=10, pady=10, sticky="news")
 
 benefits_title = CTkLabel(
     benefits_frame,
-    text="Employee Benefits",
+    text="Employee Info",
     text_font=(helvetica, 12, "bold"),
-).grid(row=0, column=0, padx=10, pady=5)
+)
+benefits_title.grid(row=0, column=0, padx=10, pady=5, columnspan=2)
 
+
+####### column configure #######
 benefits_frame.columnconfigure(0, weight=1)
+benefits_frame.columnconfigure(1, weight=2)
+####### column configure #######
+
+emp_name = CTkLabel(
+    benefits_frame,
+    text="name:",
+    text_font=(helvetica, 12),
+    anchor="e",
+
+)
+emp_name.grid(row=1, column=0, padx=10, pady=5, sticky="w")
+
+emp_name_view = CTkLabel(
+    benefits_frame,
+    text="name",
+    text_font=(helvetica, 12),
+    anchor="w",
+)
+emp_name_view.grid(row=1, column=1, padx=10, pady=5, sticky="w")
+
+
+
+emp_username = CTkLabel(
+    benefits_frame,
+    text="username:",
+    text_font=(helvetica, 12),
+    anchor="e"
+
+)
+emp_username.grid(row=2, column=0, padx=10, pady=5, sticky="w")
+
+
+emp_username_view = CTkLabel(
+    benefits_frame,
+    text="username",
+    text_font=(helvetica, 12),
+    anchor="w"
+
+)
+emp_username_view.grid(row=2, column=1, padx=10, pady=5, sticky="w")
+
+
+emp_email = CTkLabel(
+    benefits_frame,
+    text="email:",
+    text_font=(helvetica, 12),
+    anchor="e"
+
+)
+emp_email.grid(row=3, column=0, padx=10, pady=5, sticky="w")
+
+emp_email_view = CTkLabel(
+    benefits_frame,
+    text="email",
+    text_font=(helvetica, 12),
+    anchor="w"
+
+)
+emp_email_view.grid(row=3, column=1, padx=10, pady=5, sticky="w")
+
+
+emp_phone = CTkLabel(
+    benefits_frame,
+    text="phone no:",
+    text_font=(helvetica, 12),
+    anchor="e"
+
+)
+emp_phone.grid(row=4, column=0, padx=10, pady=5, sticky="w")
+
+emp_phone_view = CTkLabel(
+    benefits_frame,
+    text="phone no",
+    text_font=(helvetica, 12),
+    anchor="w"
+
+)
+emp_phone_view.grid(row=4, column=1, padx=10, pady=5, sticky="w")
+
+
+emp_desg = CTkLabel(
+    benefits_frame,
+    text="designation:",
+    text_font=(helvetica, 12),
+    anchor="e"
+
+)
+emp_desg.grid(row=5, column=0, padx=10, pady=5, sticky="w")
+
+emp_desg_view = CTkLabel(
+    benefits_frame,
+    text="designation",
+    text_font=(helvetica, 12),
+    anchor="w"
+
+)
+emp_desg_view.grid(row=5, column=1, padx=10, pady=5, sticky="w")
+
+
+emp_password = CTkLabel(
+    benefits_frame,
+    text="password:",
+    text_font=(helvetica, 12),
+    anchor="e"
+
+)
+emp_password.grid(row=6, column=0, padx=10, pady=5, sticky="w")
+
+emp_password_view = CTkLabel(
+    benefits_frame,
+    text="password",
+    text_font=(helvetica, 12),
+    anchor="w"
+
+)
+emp_password_view.grid(row=6, column=1, padx=10, pady=5, sticky="w")
+
+
+# Empty_row = CTkLabel(
+#     benefits_frame,
+#     text="password",
+#     text_font=(helvetica, 12),
+#     anchor="w",
+#     fg_color="green"
+
+# )
+# emp_password_view.grid(row=1, column=3, padx=10, pady=5)
+
+
+
 
 ##### benefits #####
 
