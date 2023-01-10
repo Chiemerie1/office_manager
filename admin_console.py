@@ -111,6 +111,7 @@ tab_frame = CTkFrame(
 )
 tab_frame.grid(row=1, column=0, padx=10, pady=10, sticky="nsw")
 
+###### Switching Tabs ########
 employees = CTkButton(
     tab_frame,
     text="Employees",
@@ -143,9 +144,10 @@ settings = CTkButton(
     command=lambda:raise_frame(settings_main)
 )
 settings.pack(padx=10, pady=10)
+###### Switching Tabs ########
+
 
 ##### Tab frame #####
-
 employees_main = CTkFrame(
     console
 )
@@ -158,6 +160,7 @@ settings_main = CTkFrame(
 
 for main_frame in (employees_main, inventory_main, settings_main):
     main_frame.grid(row=1, column=1, padx=10, pady=10, sticky="nsew")
+##### Tab frame #####
 
 
 ##### Employees frame #####
@@ -347,11 +350,6 @@ benefits_title = CTkLabel(
 benefits_title.grid(row=0, column=0, padx=10, pady=5, columnspan=2)
 
 
-####### column configure #######
-benefits_frame.columnconfigure(0, weight=1)
-benefits_frame.columnconfigure(1, weight=2)
-####### column configure #######
-
 emp_name = CTkLabel(
     benefits_frame,
     text="name:",
@@ -465,22 +463,7 @@ emp_password_view = CTkLabel(
 
 )
 emp_password_view.grid(row=6, column=1, padx=10, pady=5, sticky="w")
-
-
-# Empty_row = CTkLabel(
-#     benefits_frame,
-#     text="password",
-#     text_font=(helvetica, 12),
-#     anchor="w",
-#     fg_color="green"
-
-# )
-# emp_password_view.grid(row=1, column=3, padx=10, pady=5)
-
-
-
-
-##### benefits #####
+##### employee information #####
 
 
 
@@ -494,6 +477,7 @@ raise_frame(employees_main)
 
 
 ##### grid Configurations #####
+
 ##### console #####
 console.columnconfigure(0, weight=1)
 console.columnconfigure(1, weight=5)
@@ -509,6 +493,12 @@ employees_main.columnconfigure(1, weight=1)
 employees_main.rowconfigure(0, weight=1)
 employees_main.rowconfigure(1, weight=5)
 ##### Employee main #####
+
+####### emplyee information configure #######
+benefits_frame.columnconfigure(0, weight=1)
+benefits_frame.columnconfigure(1, weight=2)
+####### emplyee column configure #######
+
 ##### grid Configurations #####
 
 

@@ -2,6 +2,13 @@ from tkinter import *
 import customtkinter as ct
 from PIL import ImageTk, Image
 import os
+from pymongo import MongoClient
+
+
+db_client = MongoClient("mongodb://localhost:27017/")
+db = db_client["office_manager"]
+create_manager = db["manager"]
+
 
 
 root = ct.CTk()
@@ -12,7 +19,41 @@ PATH = os.path.dirname(os.path.realpath(__file__))
 
 basic_font = "comic Sans Ms"
 
+##### fn #####
+def save_manager():
 
+    manager_info_dict = {}
+
+    manager_info = [first_name.get(), last_name.get(), username.get(), business_name.get(), password.get(),
+                    confirm_password.get()
+                    ]
+
+    for x in range(len(manager_info)):
+        if manager_info[x] != "":
+            manager_info_dict.update({
+                "First_name": manager_info[0],
+                "Last_name": manager_info[1],
+                "username": manager_info[2],
+                "business_name": manager_info[3],
+                "password": manager_info[4],
+                "confirm_password": manager_info[5]
+            })
+    if manager_info_dict["password"] != manager_info_dict["confirm_password"]:
+        create_btn.configure(text="passwords do not match")
+    elif manager_info_dict["password"] == manager_info_dict["confirm_password"]:
+        manager = create_manager.insert_one(manager_info_dict)
+        create_btn.configure(text="Office creation successful", fg_color="green")
+
+    first_name.delete(0, END),
+    last_name.delete(0, END),
+    username.delete(0, END),
+    business_name.delete(0, END),
+    password.delete(0, END),
+    confirm_password.delete(0, END)
+
+
+
+###### log in and account creating frame #####
 login_window = ct.CTkFrame(root)
 create_window = ct.CTkFrame(root)
 
@@ -82,19 +123,22 @@ login_btn = ct.CTkButton(
 )
 login_btn.grid(row=4, column=0, padx=10, pady=10, sticky="nsew")
 
-create_manager = ct.CTkButton(
+
+##### switching to account creating frame #####
+create_account = ct.CTkButton(
     login_frame,
-    text="Create your manager",
+    text="Create your office",
     text_font=(basic_font, 12),
     fg_color="gray",
     width=500,
     command=lambda:raise_frame(create_window)
 )
-create_manager.grid(row=5, column=0, padx=10, pady=10, sticky="nsew")
+create_account.grid(row=5, column=0, padx=10, pady=10, sticky="nsew")
 
 
-##### Create ######
 
+
+##### account creating frame ######
 frame_1 = ct.CTkFrame(
     create_window,
     fg_color="gray",
@@ -112,23 +156,23 @@ create_office = ct.CTkLabel(
 create_office.pack(padx=10, pady=10)
 
 
-First_name = ct.CTkEntry(
+first_name = ct.CTkEntry(
     frame_1,
     placeholder_text="First name",
     corner_radius=10,
     height=32,
     width=500
 )
-First_name.pack(padx=10, pady=10)
+first_name.pack(padx=10, pady=10)
 
-Last_name = ct.CTkEntry(
+last_name = ct.CTkEntry(
     frame_1,
     placeholder_text="Last name",
     corner_radius=10,
     height=35,
     width=500
 )
-Last_name.pack(padx=10, pady=10)
+last_name.pack(padx=10, pady=10)
 
 username = ct.CTkEntry(
     frame_1,
@@ -173,10 +217,13 @@ create_btn = ct.CTkButton(
     text_font=(basic_font, 10),
     corner_radius=10,
     width=500,
-    height=35
+    height=35,
+    command=save_manager
 )
 create_btn.pack(padx=10, pady=10)
 
+
+##### Swithiching to login frame #####
 back_btn = ct.CTkButton(
     frame_1,
     fg_color=("brown","gray"),
