@@ -8,7 +8,8 @@ from pymongo import MongoClient
 db_client = MongoClient("mongodb://localhost:27017/")
 db = db_client["office_manager"]
 employee_table = db["employee"]
-inventory = db["inventory"]
+category = db["category"]
+items = db["items"]
 
 
 new_dark = "#202529"
@@ -491,7 +492,203 @@ def admin():
 
 
 
-###### Inventory #######
+    ###### Inventory #######
+
+    def _save_category():
+        category_data = {}
+        param_list = [
+            cat_name.get(),
+            isle.get(),
+            shelf.get()
+        ]
+        for param in range(len(param_list)):
+            if param_list[param] != "":
+                category_data.update(
+                    {
+                        "name": param_list[0],
+                        "isle": param_list[1],
+                        "shelf": param_list[2]
+                    }
+                )
+        invent = category.insert_one(category_data)
+        cat_name.delete(0, END)
+        isle.delete(0, END)
+        shelf.delete(0, END)
+        _reset_category()
+        show_category()
+
+
+    def category_delete():
+        for d in category_list.curselection():
+            cat_name = {"name": category_list.get(d)}
+        delete = category.delete_one(cat_name)
+        _reset_category()
+        show_category()
+
+
+    def _add_item():
+        add_item = {}
+        for x in category_list.curselection():
+            add_item["category_id"] = category_list.get(x)
+        if len(add_item) == 1:
+            add_item["item name"] = item_name.get()
+            add_item["price"] = item_price.get()
+            add_item["item stock"] = item_stock.get()
+        else:
+            raise ValueError("select an category to continue")
+        print(add_item)
+        save_items = items.insert_one(add_item)
+
+        item_name.delete(0, END)
+        item_price.delete(0, END)
+        item_stock.delete(0, END)
+        
+                
+
+    category_frame = CTkFrame(
+        inventory_main,
+
+    )
+    category_frame.grid(row=0, column=0, padx=10, pady=5)
+
+    category_title = CTkLabel(
+        category_frame,
+        text="Categories",
+        
+    )
+    category_title.grid(row=0, column=0, padx=10, pady=5)
+
+    cat_name = CTkEntry(
+        category_frame,
+        placeholder_text="Name",
+        text_font=(helvetica, 10),
+        height=35,
+        width=200
+    )
+    cat_name.grid(row=1, column=0, padx=10, pady=5)
+
+    isle = CTkEntry(
+        category_frame,
+        placeholder_text="Isle",
+        text_font=(helvetica, 10),
+        height=35,
+        width=200
+    )
+    isle.grid(row=2, column=0, padx=10, pady=5)
+
+    shelf = CTkEntry(
+        category_frame,
+        placeholder_text="Shelf",
+        text_font=(helvetica, 10),
+        height=35,
+        width=200
+    )
+    shelf.grid(row=3, column=0, padx=10, pady=5)
+
+    save_category = CTkButton(
+        category_frame,
+        text="save",
+        text_font=(helvetica, 10),
+        height=35,
+        width=200,
+        fg_color=btn_dark,
+        hover_color=new_dark,
+        command=_save_category
+    )
+    save_category.grid(row=4, column=0, padx=10, pady=5)
+
+    category_list = Listbox(
+        inventory_main,
+        activestyle="dotbox",
+        bg=new_dark,
+        highlightcolor=btn_dark,
+        selectbackground=btn_dark,
+        takefocus=TRUE,
+        yscrollcommand=YES,
+        font=(helvetica, 12),
+        fg="white"
+    )
+    category_list.grid(row=1, column=0, padx=10, pady=10, ipadx=10, sticky="news")
+
+    def show_category():
+        for c in category.find():
+            category_list.insert(END, c["name"])
+    
+    def _reset_category():
+        category_list.delete(0, END)
+
+    show_category()
+
+
+    ###### The frame and the item entry widgets
+    item_frame = CTkFrame(
+        inventory_main,
+    )
+    item_frame.grid(row=2, column=0, padx=10, pady=5)
+
+    item_name = CTkEntry(
+        item_frame,
+        placeholder_text="Item name",
+        text_font=(helvetica, 10),
+        height=35,
+        width=200
+    )
+    item_name.grid(row=0, column=0, padx=10, pady=5)
+
+    item_price = CTkEntry(
+        item_frame,
+        placeholder_text="Price",
+        text_font=(helvetica, 10),
+        height=35,
+        width=200
+    )
+    item_price.grid(row=1, column=0, padx=10, pady=5)
+
+    item_stock = CTkEntry(
+        item_frame,
+        placeholder_text="Stock",
+        text_font=(helvetica, 10),
+        height=35,
+        width=200
+    )
+    item_stock.grid(row=2, column=0, padx=10, pady=5)
+    ###### The frame and the item entry widgets
+
+
+    ###### The frame and the action buttons
+    atn_btn_frame = CTkFrame(
+        inventory_main,
+
+    )
+
+    atn_btn_frame.grid(row=3, column=0, padx=10, pady=5)
+
+    cat_delete = CTkButton(
+        atn_btn_frame,
+        text="Delete",
+        fg_color=btn_dark,
+        height=35,
+        width=200,
+        hover_color=new_dark,
+        command=category_delete
+    )
+    cat_delete.grid(row=0, column=0, padx=10, pady=5)
+
+    item_entry_btn =  CTkButton(
+        atn_btn_frame,
+        text="Enter item",
+        fg_color=btn_dark,
+        height=35,
+        width=200,
+        hover_color=new_dark,
+        command=_add_item
+    )
+    item_entry_btn.grid(row=1, column=0, padx=10, pady=5)
+    ###### The trame and the action buttons
+
+    
+
+    
 
 
     ##### grid Configurations #####

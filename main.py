@@ -63,8 +63,8 @@ def save_manager():
     confirm_password.delete(0, END)
 
 
-def exit_login_window():
-    root.destroy()
+def min_login_window():
+    root.iconify()
 
 
 ##### login #####
@@ -83,7 +83,7 @@ def manager_login():
         }
         query_db = create_manager.find_one(username_exists)
         if query_db["password"] == manager_password:
-            exit_login_window()
+            min_login_window()
             admin()
             
         else:
