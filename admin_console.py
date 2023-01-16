@@ -8,9 +8,12 @@ from pymongo import MongoClient
 db_client = MongoClient("mongodb://localhost:27017/")
 db = db_client["office_manager"]
 employee_table = db["employee"]
+inventory = db["inventory"]
 
 
-
+new_dark = "#202529"
+btn_dark = "#475e69"
+btn_light = "#b5bfcb"
 
 helvetica = "Helvetica"
 
@@ -19,6 +22,7 @@ def admin():
     console = CTkToplevel()
     console.geometry("1000x800")
     console.title("Admin Console")
+    console.configure(bg=new_dark)
 
 
     PATH = os.path.dirname(os.path.realpath(__file__))
@@ -94,13 +98,15 @@ def admin():
     title_frame = CTkFrame(
         console,
         height=5,
+        fg_color=new_dark
     )
     title_frame.grid(row=0, column=0, padx=10, pady=10, sticky="news", columnspan=2)
 
     title = CTkLabel(
         title_frame,
         text="Admin Console",
-        text_font=(helvetica, 14)
+        text_font=(helvetica, 14),
+        fg_color=new_dark
     )
     title.pack(pady=5)
 
@@ -109,7 +115,8 @@ def admin():
     ##### Tab frame #####
     tab_frame = CTkFrame(
         console,
-        height=600
+        height=600,
+        fg_color=new_dark
     )
     tab_frame.grid(row=1, column=0, padx=10, pady=10, sticky="nsw")
 
@@ -118,9 +125,9 @@ def admin():
         tab_frame,
         text="Employees",
         text_font=(helvetica, 12, "bold"),
-        fg_color=("#d1d5d8", "#2a2d2e"),
+        fg_color=new_dark,
         text_color=("#2a2d2e", "#d1d5d8"),
-        hover_color="brown",
+        hover_color=btn_dark,
         command=lambda:raise_frame(employees_main)
     )
     employees.pack(padx=10, pady=10)
@@ -129,9 +136,9 @@ def admin():
         tab_frame,
         text="Inventory",
         text_font=(helvetica, 12, "bold"),
-        fg_color=("#d1d5d8", "#2a2d2e"),
+        fg_color=new_dark,
         text_color=("#2a2d2e", "#d1d5d8"),
-        hover_color="brown",
+        hover_color=btn_dark,
         command=lambda:raise_frame(inventory_main)
     )
     inventory.pack(padx=10, pady=10)
@@ -140,9 +147,9 @@ def admin():
         tab_frame,
         text="Settings",
         text_font=(helvetica, 12, "bold"),
-        fg_color=("#d1d5d8", "#2a2d2e"),
+        fg_color=new_dark,
         text_color=("#2a2d2e", "#d1d5d8"),
-        hover_color="brown",
+        hover_color=btn_dark,
         command=lambda:raise_frame(settings_main)
     )
     settings.pack(padx=10, pady=10)
@@ -151,13 +158,16 @@ def admin():
 
     ##### Tab frame #####
     employees_main = CTkFrame(
-        console
+        console,
+        fg_color=new_dark
     )
     inventory_main = CTkFrame(
-        console
+        console,
+        fg_color=new_dark
     )
     settings_main = CTkFrame(
-        console
+        console,
+        fg_color=new_dark
     )
 
     for main_frame in (employees_main, inventory_main, settings_main):
@@ -169,6 +179,7 @@ def admin():
 
     frame1 = CTkFrame(
         employees_main,
+        fg_color=new_dark
     )
     frame1.grid(row=0, column=0, padx=10, pady=10, sticky="news")
 
@@ -239,10 +250,10 @@ def admin():
 
     save = CTkButton(
         frame1,
-        fg_color='brown',
+        fg_color=btn_dark,
         text="Save",
         text_font=(helvetica, 12, "bold"),
-        hover_color="gray",
+        hover_color=new_dark,
         height=35,
         relief=RAISED,
         command=db_save
@@ -253,9 +264,9 @@ def admin():
     employee_info = Listbox(
         employees_main,
         activestyle="underline",
-        bg="gray25",
-        highlightcolor="brown",
-        selectbackground="brown",
+        bg=new_dark,
+        highlightcolor=btn_dark,
+        selectbackground=btn_dark,
         takefocus=TRUE,
         yscrollcommand=YES,
         font=(helvetica, 12),
@@ -279,15 +290,16 @@ def admin():
 
     actions = CTkFrame(
         employees_main,
+        fg_color=new_dark
     )
     actions.grid(row=0, column=1, padx=10, pady=10, sticky="news")
 
     edit_btn = CTkButton(
         actions,
-        fg_color='gray',
+        fg_color=btn_dark,
         text="Edit",
         text_font=(helvetica, 12, "bold"),
-        hover_color="brown",
+        hover_color=new_dark,
         height=35,
         width=300,
         relief=RAISED
@@ -296,10 +308,10 @@ def admin():
 
     delete_btn = CTkButton(
         actions,
-        fg_color='gray',
+        fg_color=btn_dark,
         text="Delete",
         text_font=(helvetica, 12, "bold"),
-        hover_color="brown",
+        hover_color=new_dark,
         height=35,
         width=300,
         relief=RAISED,
@@ -309,10 +321,10 @@ def admin():
 
     freeze_btn = CTkButton(
         actions,
-        fg_color='gray',
+        fg_color=btn_dark,
         text="Freeze",
         text_font=(helvetica, 12, "bold"),
-        hover_color="brown",
+        hover_color=new_dark,
         height=35,
         width=300,
         relief=RAISED
@@ -321,10 +333,10 @@ def admin():
 
     view_btn = CTkButton(
         actions,
-        fg_color='gray',
+        fg_color=btn_dark,
         text="View",
         text_font=(helvetica, 12, "bold"),
-        hover_color="brown",
+        hover_color=new_dark,
         height=35,
         width=300,
         relief=RAISED,
@@ -341,6 +353,7 @@ def admin():
     ##### Employee Information #####
     benefits_frame = CTkFrame(
         employees_main,
+        fg_color=new_dark
     )
     benefits_frame.grid(row=1, column=1, padx=10, pady=10, sticky="news")
 
@@ -468,7 +481,6 @@ def admin():
     ##### employee information #####
 
 
-
     ##### Employees frame #####
 
 
@@ -476,6 +488,10 @@ def admin():
         main_frame.tkraise()
 
     raise_frame(employees_main)
+
+
+
+###### Inventory #######
 
 
     ##### grid Configurations #####

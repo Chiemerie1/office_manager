@@ -10,15 +10,24 @@ db_client = MongoClient("mongodb://localhost:27017/")
 db = db_client["office_manager"]
 create_manager = db["manager"]
 
+####constants
+new_dark = "#202529"
+basic_font = "comic Sans Ms"
+btn_dark = "#475e69"
+btn_light = "#b5bfcb"
 
 
+
+ct.set_appearance_mode("dark")
 root = ct.CTk()
 root.geometry("900x700")
 root.title("Office Manager")
 
+root.configure(bg=new_dark)
+
 PATH = os.path.dirname(os.path.realpath(__file__))
 
-basic_font = "comic Sans Ms"
+
 
 ##### fn #####
 ##### creating manager #####
@@ -87,8 +96,8 @@ def manager_login():
 
 
 ###### log in and account creating frame #####
-login_window = ct.CTkFrame(root)
-create_window = ct.CTkFrame(root)
+login_window = ct.CTkFrame(root, fg_color=new_dark)
+create_window = ct.CTkFrame(root, fg_color=new_dark)
 
 for frame in (login_window, create_window):
     frame.grid(row=0, column=0, sticky="nsew", padx=10, pady=10)
@@ -97,8 +106,8 @@ for frame in (login_window, create_window):
 
 login_frame = ct.CTkFrame(
     login_window,
-    fg_color="gray",
-    border_color="brown",
+    fg_color=new_dark,
+    border_color=btn_dark,
     corner_radius=20,
     border_width=2
 )
@@ -117,7 +126,7 @@ app_icon = ImageTk.PhotoImage(app_icon)
 logo = Label(
     login_frame,
     image=app_icon,
-    bg="gray"
+    bg=new_dark
 )
 logo.grid(row=1, column=0, padx=10, pady=10, sticky="nsew")
 
@@ -130,6 +139,7 @@ login_username = ct.CTkEntry(
     height=35
 )
 login_username.grid(row=2, column=0, padx=10, pady=10, sticky="nsew")
+
 
 login_password = ct.CTkEntry(
     login_frame,
@@ -146,7 +156,7 @@ login_icon = ImageTk.PhotoImage(login_icon)
 
 login_btn = ct.CTkButton(
     login_frame,
-    fg_color="brown",
+    fg_color=btn_dark,
     text="Login",
     text_font=(basic_font, 10),
     corner_radius=10,
@@ -156,6 +166,7 @@ login_btn = ct.CTkButton(
     command=manager_login
 )
 login_btn.grid(row=4, column=0, padx=10, pady=10, sticky="nsew")
+login_btn.bind("<Return>", manager_login)
 
 
 ##### switching to account creating frame #####
@@ -163,7 +174,7 @@ create_account = ct.CTkButton(
     login_frame,
     text="Create your office",
     text_font=(basic_font, 12),
-    fg_color="gray",
+    fg_color=new_dark,
     width=500,
     command=lambda:raise_frame(create_window)
 )
@@ -175,9 +186,9 @@ create_account.grid(row=5, column=0, padx=10, pady=10, sticky="nsew")
 ##### account creating frame ######
 frame_1 = ct.CTkFrame(
     create_window,
-    fg_color="gray",
+    fg_color=new_dark,
     corner_radius=20,
-    border_color="brown",
+    border_color=btn_dark,
     border_width=2,
 )
 frame_1.pack(padx=10, pady=100)
@@ -246,7 +257,7 @@ confirm_password.pack(padx=10, pady=10)
 
 create_btn = ct.CTkButton(
     frame_1,
-    fg_color="brown",
+    fg_color=btn_dark,
     text="Create office",
     text_font=(basic_font, 10),
     corner_radius=10,
@@ -260,7 +271,7 @@ create_btn.pack(padx=10, pady=10)
 ##### Swithiching to login frame #####
 back_btn = ct.CTkButton(
     frame_1,
-    fg_color=("brown","gray"),
+    fg_color=new_dark,
     text="Go back",
     text_font=(basic_font, 10),
     corner_radius=10,
