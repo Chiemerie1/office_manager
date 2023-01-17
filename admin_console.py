@@ -261,19 +261,35 @@ def admin():
     )
     save.grid(row=7, column=0, padx=40, pady=5, sticky="news")
 
+    employee_info_frame = CTkFrame(
+        employees_main,
+
+    )
+    employee_info_frame.grid(row=1, column=0, padx=10, pady=10, ipadx=10, sticky="news")
 
     employee_info = Listbox(
-        employees_main,
+        employee_info_frame,
         activestyle="underline",
         bg=new_dark,
         highlightcolor=btn_dark,
         selectbackground=btn_dark,
         takefocus=TRUE,
-        yscrollcommand=YES,
         font=(helvetica, 12),
         fg="white"
     )
-    employee_info.grid(row=1, column=0, padx=10, pady=10, ipadx=10, sticky="news")
+    employee_info.grid(row=0, column=0, sticky="news")
+
+    emp_info_scrollbar = CTkScrollbar(employee_info_frame, command=employee_info.yview)
+    emp_info_scrollbar.grid(row=0, column=1, padx=0, pady=10, sticky="ns")
+
+    employee_info.configure(yscrollcommand=emp_info_scrollbar.set)
+
+    employee_info_frame.rowconfigure(0, weight=1)
+    employee_info_frame.columnconfigure(0, weight=3)
+    employee_info_frame.columnconfigure(1, weight=0)
+
+
+    
 
     ##### Displaying info on list box #####
 
@@ -547,13 +563,14 @@ def admin():
 
     category_frame = CTkFrame(
         inventory_main,
+        fg_color=new_dark
 
     )
-    category_frame.grid(row=0, column=0, padx=10, pady=5)
+    category_frame.grid(row=0, column=0)
 
     category_title = CTkLabel(
         category_frame,
-        text="Categories",
+        text="Category and item entry",
         
     )
     category_title.grid(row=0, column=0, padx=10, pady=5)
@@ -563,7 +580,7 @@ def admin():
         placeholder_text="Name",
         text_font=(helvetica, 10),
         height=35,
-        width=200
+        width=250
     )
     cat_name.grid(row=1, column=0, padx=10, pady=5)
 
@@ -572,7 +589,7 @@ def admin():
         placeholder_text="Isle",
         text_font=(helvetica, 10),
         height=35,
-        width=200
+        width=250
     )
     isle.grid(row=2, column=0, padx=10, pady=5)
 
@@ -581,34 +598,46 @@ def admin():
         placeholder_text="Shelf",
         text_font=(helvetica, 10),
         height=35,
-        width=200
+        width=250
     )
     shelf.grid(row=3, column=0, padx=10, pady=5)
 
     save_category = CTkButton(
         category_frame,
         text="save",
-        text_font=(helvetica, 10),
+        text_font=(helvetica, 10, "bold"),
         height=35,
         width=200,
         fg_color=btn_dark,
         hover_color=new_dark,
-        command=_save_category
+        command=_save_category,
     )
     save_category.grid(row=4, column=0, padx=10, pady=5)
+    
+
+    category_list_frame = CTkFrame(
+        inventory_main,
+        fg_color=new_dark
+    )
+    category_list_frame.grid(row=1, column=0)
 
     category_list = Listbox(
-        inventory_main,
+        category_list_frame,
         activestyle="dotbox",
         bg=new_dark,
         highlightcolor=btn_dark,
         selectbackground=btn_dark,
         takefocus=TRUE,
-        yscrollcommand=YES,
         font=(helvetica, 12),
         fg="white"
     )
-    category_list.grid(row=1, column=0, padx=10, pady=10, ipadx=10, sticky="news")
+    category_list.grid(row=0, column=0, padx=10, pady=10, ipadx=10, sticky="news")
+    
+    category_list_scrollbar = CTkScrollbar(category_list_frame, fg_color=new_dark, command=category_list.yview)
+    category_list_scrollbar.grid(row=0, column=1, sticky="ns")
+
+    category_list.configure(yscrollcommand=category_list_scrollbar.set)
+
 
     def show_category():
         for c in category.find():
@@ -623,15 +652,16 @@ def admin():
     ###### The frame and the item entry widgets
     item_frame = CTkFrame(
         inventory_main,
+        fg_color=new_dark
     )
-    item_frame.grid(row=2, column=0, padx=10, pady=5)
+    item_frame.grid(row=2, column=0)
 
     item_name = CTkEntry(
         item_frame,
         placeholder_text="Item name",
         text_font=(helvetica, 10),
         height=35,
-        width=200
+        width=250
     )
     item_name.grid(row=0, column=0, padx=10, pady=5)
 
@@ -640,7 +670,7 @@ def admin():
         placeholder_text="Price",
         text_font=(helvetica, 10),
         height=35,
-        width=200
+        width=250
     )
     item_price.grid(row=1, column=0, padx=10, pady=5)
 
@@ -649,7 +679,7 @@ def admin():
         placeholder_text="Stock",
         text_font=(helvetica, 10),
         height=35,
-        width=200
+        width=250
     )
     item_stock.grid(row=2, column=0, padx=10, pady=5)
     ###### The frame and the item entry widgets
@@ -658,6 +688,7 @@ def admin():
     ###### The frame and the action buttons
     atn_btn_frame = CTkFrame(
         inventory_main,
+        fg_color=new_dark
 
     )
 
@@ -686,9 +717,6 @@ def admin():
     item_entry_btn.grid(row=1, column=0, padx=10, pady=5)
     ###### The trame and the action buttons
 
-    
-
-    
 
 
     ##### grid Configurations #####
@@ -709,7 +737,7 @@ def admin():
     employees_main.rowconfigure(1, weight=5)
     ##### Employee main #####
 
-    ####### emplyee information configure #######
+    ####### employee information configure #######
     benefits_frame.columnconfigure(0, weight=1)
     benefits_frame.columnconfigure(1, weight=2)
     ####### emplyee column configure #######

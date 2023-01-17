@@ -136,7 +136,8 @@ login_username = ct.CTkEntry(
     corner_radius=10,
     text_font=(basic_font, 10),
     width=500,
-    height=35
+    height=35,
+    takefocus=True
 )
 login_username.grid(row=2, column=0, padx=10, pady=10, sticky="nsew")
 
