@@ -12,16 +12,16 @@ category = db["category"]
 items = db["items"]
 
 
-new_dark = "#202529"
+new_dark = "#000000"
 btn_dark = "#475e69"
-btn_light = "#b5bfcb"
+btn_light = "#56f1bf"
 
-helvetica = "Helvetica"
+helvetica = "comic Sans Ms"
 
 def admin():
 
     console = CTkToplevel()
-    console.geometry("1000x800")
+    console.geometry("1400x900")
     console.title("Admin Console")
     console.configure(bg=new_dark)
 
@@ -536,8 +536,8 @@ def admin():
 
     def category_delete():
         for d in category_list.curselection():
-            cat_name = {"name": category_list.get(d)}
-        delete = category.delete_one(cat_name)
+            category_name = {"name": category_list.get(d)}
+        delete = category.delete_one(category_name)
         _reset_category()
         show_category()
 
@@ -558,82 +558,91 @@ def admin():
         item_name.delete(0, END)
         item_price.delete(0, END)
         item_stock.delete(0, END)
-        
-                
+
+
+    
 
     category_frame = CTkFrame(
         inventory_main,
-        fg_color=new_dark
-
+        fg_color=btn_light
     )
-    category_frame.grid(row=0, column=0)
+    category_frame.grid(row=0, column=0, padx=5, pady=5, sticky="news")
+
+    category_input_frame = CTkFrame(
+        category_frame,
+        fg_color=new_dark,
+    )
+    category_input_frame.grid(row=0, column=0, padx=5, pady=5, sticky="news")
+
+    category_disp_frame = CTkFrame(
+        category_frame,
+    )
+    category_disp_frame.grid(row=0, column=1, padx=5, pady=5, sticky="news")
+
+
 
     category_title = CTkLabel(
-        category_frame,
+        category_input_frame,
         text="Category and item entry",
+        text_font=(helvetica, 10, "bold"),
+        fg_color=new_dark
         
     )
-    category_title.grid(row=0, column=0, padx=10, pady=5)
+    category_title.grid(row=0, column=0, padx=10, pady=3)
 
     cat_name = CTkEntry(
-        category_frame,
+        category_input_frame,
         placeholder_text="Name",
         text_font=(helvetica, 10),
-        height=35,
-        width=250
+        height=30,
+        width=200
     )
-    cat_name.grid(row=1, column=0, padx=10, pady=5)
+    cat_name.grid(row=1, column=0, padx=10, pady=3)
 
     isle = CTkEntry(
-        category_frame,
+        category_input_frame,
         placeholder_text="Isle",
         text_font=(helvetica, 10),
-        height=35,
-        width=250
+        height=30,
+        width=200
     )
-    isle.grid(row=2, column=0, padx=10, pady=5)
+    isle.grid(row=2, column=0, padx=10, pady=3)
 
     shelf = CTkEntry(
-        category_frame,
+        category_input_frame,
         placeholder_text="Shelf",
         text_font=(helvetica, 10),
-        height=35,
-        width=250
+        height=30,
+        width=200
     )
-    shelf.grid(row=3, column=0, padx=10, pady=5)
+    shelf.grid(row=3, column=0, padx=10, pady=3)
 
     save_category = CTkButton(
-        category_frame,
+        category_input_frame,
         text="save",
         text_font=(helvetica, 10, "bold"),
-        height=35,
+        height=30,
         width=200,
         fg_color=btn_dark,
         hover_color=new_dark,
         command=_save_category,
     )
-    save_category.grid(row=4, column=0, padx=10, pady=5)
+    save_category.grid(row=4, column=0, padx=10, pady=3)
     
 
-    category_list_frame = CTkFrame(
-        inventory_main,
-        fg_color=new_dark
-    )
-    category_list_frame.grid(row=1, column=0)
-
     category_list = Listbox(
-        category_list_frame,
+        category_disp_frame,
         activestyle="dotbox",
         bg=new_dark,
         highlightcolor=btn_dark,
         selectbackground=btn_dark,
         takefocus=TRUE,
-        font=(helvetica, 12),
+        font=(helvetica, 12, "bold"),
         fg="white"
     )
-    category_list.grid(row=0, column=0, padx=10, pady=10, ipadx=10, sticky="news")
+    category_list.grid(row=0, column=0, padx=10, pady=10, sticky="news")
     
-    category_list_scrollbar = CTkScrollbar(category_list_frame, fg_color=new_dark, command=category_list.yview)
+    category_list_scrollbar = CTkScrollbar(category_disp_frame, fg_color=new_dark, command=category_list.yview)
     category_list_scrollbar.grid(row=0, column=1, sticky="ns")
 
     category_list.configure(yscrollcommand=category_list_scrollbar.set)
@@ -649,73 +658,169 @@ def admin():
     show_category()
 
 
-    ###### The frame and the item entry widgets
+    # ###### The frame and the item entry widgets
     item_frame = CTkFrame(
         inventory_main,
+        fg_color=btn_light
+    )
+    item_frame.grid(row=1, column=0, padx=5, pady=5, sticky="news")
+
+    item_entry_frame = CTkFrame(
+        item_frame,
         fg_color=new_dark
     )
-    item_frame.grid(row=2, column=0)
+    item_entry_frame.grid(row=0, column=0, padx=5, pady=5, sticky="news")
 
-    item_name = CTkEntry(
+    action_btn_frame = CTkFrame(
         item_frame,
+        fg_color=new_dark
+    )
+    action_btn_frame.grid(row=0, column=1, padx=5, pady=5, sticky="news")
+
+    
+    item_name = CTkEntry(
+        item_entry_frame,
         placeholder_text="Item name",
         text_font=(helvetica, 10),
-        height=35,
-        width=250
+        height=30,
+        width=200
     )
     item_name.grid(row=0, column=0, padx=10, pady=5)
 
     item_price = CTkEntry(
-        item_frame,
+        item_entry_frame,
         placeholder_text="Price",
         text_font=(helvetica, 10),
-        height=35,
-        width=250
+        height=30,
+        width=200
     )
     item_price.grid(row=1, column=0, padx=10, pady=5)
 
     item_stock = CTkEntry(
-        item_frame,
+        item_entry_frame,
         placeholder_text="Stock",
         text_font=(helvetica, 10),
-        height=35,
-        width=250
+        height=30,
+        width=200
     )
     item_stock.grid(row=2, column=0, padx=10, pady=5)
     ###### The frame and the item entry widgets
 
 
-    ###### The frame and the action buttons
-    atn_btn_frame = CTkFrame(
-        inventory_main,
-        fg_color=new_dark
+    # ###### The frame and the action buttons
 
-    )
-
-    atn_btn_frame.grid(row=3, column=0, padx=10, pady=5)
+    category_del_btn_icon = Image.open(PATH + "\img\cat_del.png").resize((28,28))
+    category_del_btn_icon = ImageTk.PhotoImage(category_del_btn_icon)
 
     cat_delete = CTkButton(
-        atn_btn_frame,
+        action_btn_frame,
         text="Delete",
-        fg_color=btn_dark,
-        height=35,
-        width=200,
-        hover_color=new_dark,
+        text_color="gray",
+        fg_color="#9E1B32",
+        text_font=(helvetica, 10, "bold"),
+        height=105,
+        width=105,
+        hover=False,
+        image=category_del_btn_icon,
+        compound="bottom",
         command=category_delete
     )
     cat_delete.grid(row=0, column=0, padx=10, pady=5)
 
+    enter_icon_btn_icon = Image.open(PATH + "\img\item_enter.png").resize((28,28))
+    enter_icon_btn_icon = ImageTk.PhotoImage(enter_icon_btn_icon)
+
     item_entry_btn =  CTkButton(
-        atn_btn_frame,
+        action_btn_frame,
         text="Enter item",
-        fg_color=btn_dark,
-        height=35,
-        width=200,
-        hover_color=new_dark,
+        text_color="black",
+        fg_color=btn_light,
+        text_font=(helvetica, 10, "bold"),
+        height=105,
+        width=105,
+        hover=False,
+        image=enter_icon_btn_icon,
+        compound="bottom",
         command=_add_item
     )
-    item_entry_btn.grid(row=1, column=0, padx=10, pady=5)
-    ###### The trame and the action buttons
+    item_entry_btn.grid(row=0, column=1, padx=5, pady=5)
+
+
+    # # inventory_main.rowconfigure(0, weight=1)
+    # # inventory_main.rowconfigure(1, weight=3)
+    # # inventory_main.rowconfigure(2, weight=1)
+    # # inventory_main.rowconfigure(3, weight=1)
+
+
+
+    # # category_list_frame.rowconfigure(0, weight=1)
+
+    # # category_list_frame.columnconfigure(0, weight=1)
+    # # category_list_frame.columnconfigure(1, weight=0)
+    # ###### The frame and the action buttons
+
+
+    # ######### Item display #########
+
+    # item_display_frame = CTkFrame(
+    #     inventory_main,
+    # )
+    # item_display_frame.grid(row=0, column=1, padx=10, pady=5, sticky="news")
+
+    # item_inner_frame = CTkFrame(
+    #     item_display_frame,
+    # )
+    # item_inner_frame.grid(row=0, column=1, padx=10, pady=5, sticky="news")
+
+    # item_disp_title = CTkLabel(item_inner_frame, text="Items", text_font=(helvetica, 10, "bold"))
+    # item_disp_title.grid(row=0, column=0, sticky="news")
+
+    # item_admin_list = Listbox(
+    #     item_inner_frame,
+    #     activestyle="dotbox",
+    #     bg=new_dark,
+    #     highlightcolor=btn_dark,
+    #     selectbackground=btn_dark,
+    #     takefocus=TRUE,
+    #     font=(helvetica, 12, "bold"),
+    #     fg="white",
+    #     width=50
+    # )
+    # item_admin_list.grid(row=1, column=0, sticky="news")
+
+    # item_list_scrollbar = CTkScrollbar(item_inner_frame, fg_color=new_dark, command=item_admin_list.yview)
+    # item_list_scrollbar.grid(row=1, column=1, sticky="ns")
+    # item_admin_list.configure(yscrollcommand=item_list_scrollbar.set)
+
+    # ##### show item function #####
+    # def _item_disp():
+    #     item_admin_list.delete(0, END)
+    #     _retriev_item()
+        
+    # def _retriev_item():
+    #     items_query = {}
+    #     for i in category_list.curselection():
+    #         items_query["category_id"] = category_list.get(i)
+    #     items_db_query = items.find(items_query)
+    #     for item in items_db_query:
+    #         item_admin_list.insert(END, item["item name"] +" " + " " + item["price"] +" " + " " + item["item stock"])
+
+    # show_item_btn = CTkButton(
+    #     item_inner_frame,
+    #     text="show item",
+    #     fg_color=btn_dark,
+    #     text_font=(helvetica, 10, "bold"),
+    #     height=35,
+    #     width=250,
+    #     hover_color=new_dark,
+    #     command=_item_disp
+    # )
+    # show_item_btn.grid(row=2, column=0, padx=10, pady=10, columnspan=2, sticky="news")
+
+    
+    ######### Item display #########
+
+    ###### Inventory #######
 
 
 

@@ -11,16 +11,16 @@ db = db_client["office_manager"]
 create_manager = db["manager"]
 
 ####constants
-new_dark = "#202529"
+new_dark = "#000000"
 basic_font = "comic Sans Ms"
-btn_dark = "#475e69"
+btn_dark = "#56f1bf"
 btn_light = "#b5bfcb"
 
 
 
 ct.set_appearance_mode("dark")
 root = ct.CTk()
-root.geometry("900x700")
+root.geometry("1400x900")
 root.title("Office Manager")
 
 root.configure(bg=new_dark)
@@ -159,7 +159,8 @@ login_btn = ct.CTkButton(
     login_frame,
     fg_color=btn_dark,
     text="Login",
-    text_font=(basic_font, 10),
+    text_color="black",
+    text_font=(basic_font, 10, "bold"),
     corner_radius=10,
     width=500,
     height=35,
