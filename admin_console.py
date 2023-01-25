@@ -1,5 +1,7 @@
 from tkinter import *
 from customtkinter import *
+from tkinter import ttk
+
 from PIL import Image, ImageTk
 import os
 
@@ -117,7 +119,9 @@ def admin():
     tab_frame = CTkFrame(
         console,
         height=600,
-        fg_color=new_dark
+        fg_color=new_dark,
+        border_color=btn_light,
+        border_width=2
     )
     tab_frame.grid(row=1, column=0, padx=10, pady=10, sticky="nsw")
 
@@ -127,33 +131,33 @@ def admin():
         text="Employees",
         text_font=(helvetica, 12, "bold"),
         fg_color=new_dark,
-        text_color=("#2a2d2e", "#d1d5d8"),
+        text_color=btn_light,
         hover_color=btn_dark,
         command=lambda:raise_frame(employees_main)
     )
-    employees.pack(padx=10, pady=10)
+    employees.pack(padx=2, pady=10)
 
     inventory = CTkButton(
         tab_frame,
         text="Inventory",
         text_font=(helvetica, 12, "bold"),
         fg_color=new_dark,
-        text_color=("#2a2d2e", "#d1d5d8"),
+        text_color=btn_light,
         hover_color=btn_dark,
         command=lambda:raise_frame(inventory_main)
     )
-    inventory.pack(padx=10, pady=10)
+    inventory.pack(padx=2, pady=10)
 
     settings = CTkButton(
         tab_frame,
         text="Settings",
         text_font=(helvetica, 12, "bold"),
         fg_color=new_dark,
-        text_color=("#2a2d2e", "#d1d5d8"),
+        text_color=btn_light,
         hover_color=btn_dark,
         command=lambda:raise_frame(settings_main)
     )
-    settings.pack(padx=10, pady=10)
+    settings.pack(padx=2, pady=10)
     ###### Switching Tabs ########
 
 
@@ -564,9 +568,12 @@ def admin():
 
     category_frame = CTkFrame(
         inventory_main,
-        fg_color=btn_light
+        fg_color=new_dark,
+        border_width=2,
+        border_color=btn_light
     )
     category_frame.grid(row=0, column=0, padx=5, pady=5, sticky="news")
+
 
     category_input_frame = CTkFrame(
         category_frame,
@@ -578,7 +585,6 @@ def admin():
         category_frame,
     )
     category_disp_frame.grid(row=0, column=1, padx=5, pady=5, sticky="news")
-
 
 
     category_title = CTkLabel(
@@ -661,7 +667,9 @@ def admin():
     # ###### The frame and the item entry widgets
     item_frame = CTkFrame(
         inventory_main,
-        fg_color=btn_light
+        fg_color="black",
+        border_color="#a172fb",
+        border_width=2,
     )
     item_frame.grid(row=1, column=0, padx=5, pady=5, sticky="news")
 
@@ -669,13 +677,13 @@ def admin():
         item_frame,
         fg_color=new_dark
     )
-    item_entry_frame.grid(row=0, column=0, padx=5, pady=5, sticky="news")
+    item_entry_frame.grid(row=0, column=0, padx=2, pady=5, sticky="news")
 
     action_btn_frame = CTkFrame(
         item_frame,
         fg_color=new_dark
     )
-    action_btn_frame.grid(row=0, column=1, padx=5, pady=5, sticky="news")
+    action_btn_frame.grid(row=0, column=1, padx=2, pady=5, sticky="news")
 
     
     item_name = CTkEntry(
@@ -718,8 +726,8 @@ def admin():
         text_color="gray",
         fg_color="#9E1B32",
         text_font=(helvetica, 10, "bold"),
-        height=105,
-        width=105,
+        height=107,
+        width=107,
         hover=False,
         image=category_del_btn_icon,
         compound="bottom",
@@ -736,8 +744,8 @@ def admin():
         text_color="black",
         fg_color=btn_light,
         text_font=(helvetica, 10, "bold"),
-        height=105,
-        width=105,
+        height=107,
+        width=107,
         hover=False,
         image=enter_icon_btn_icon,
         compound="bottom",
@@ -746,18 +754,118 @@ def admin():
     item_entry_btn.grid(row=0, column=1, padx=5, pady=5)
 
 
-    # # inventory_main.rowconfigure(0, weight=1)
-    # # inventory_main.rowconfigure(1, weight=3)
-    # # inventory_main.rowconfigure(2, weight=1)
-    # # inventory_main.rowconfigure(3, weight=1)
+    item_disp_frame =  CTkFrame(
+        inventory_main,
+        fg_color=new_dark,
+        border_color="#a172fb",
+        border_width=2
+    )
+    item_disp_frame.grid(row=0, column=1, padx=5, pady=5, rowspan=2, sticky="news")
+
+
+    ##### Table #####
+    item_table = ttk.Treeview(
+        item_disp_frame,
+        height=19,
+    )
+
+    item_table["columns"] = ("Item name", "Price", "Item stock")
+
+    item_table.column("#0", width=0, stretch=NO)
+    item_table.column("Item name", width=200, anchor=W, minwidth=200)
+    item_table.column("Price", width=200, anchor=CENTER, minwidth=200)
+    item_table.column("Item stock", width=200, anchor=CENTER, minwidth=200)
+
+    item_table.heading("#0", text="", anchor=W)
+    item_table.heading("Item name", text="Item name", anchor=W)
+    item_table.heading("Price", text="Price", anchor=CENTER)
+    item_table.heading("Item stock", text="Item stock", anchor=CENTER)
+
+    item_table.grid(row=0, column=0, padx=3, pady=2)
 
 
 
-    # # category_list_frame.rowconfigure(0, weight=1)
+    item_disp_btn_frame =  CTkFrame(
+        inventory_main,
+        border_width=2,
+        border_color=btn_light,
+        fg_color=new_dark
+    )
+    item_disp_btn_frame.grid(row=2, column=1, padx=5, pady=5, rowspan=2, sticky="news")
 
-    # # category_list_frame.columnconfigure(0, weight=1)
-    # # category_list_frame.columnconfigure(1, weight=0)
-    # ###### The frame and the action buttons
+    item_disp_btn_img = Image.open(PATH + "\img\show.png").resize((28,28))
+    item_disp_btn_img = ImageTk.PhotoImage(item_disp_btn_img)
+
+    def _get_items():
+        if item_table is not None:
+            _clear_tree()
+        get_item_query = {}
+        for cat in category_list.curselection():
+            get_item_query["category_id"] = category_list.get(cat)
+        get_items = items.find(get_item_query)
+
+        count = 0
+        for item in get_items:
+            print(item["item name"])
+            item_table.insert(parent="", index=END, iid=count, text="", values=(item["item name"], int(item["price"]), int(item["item stock"])))
+            count +=1
+        
+    def _clear_tree():
+        for items in item_table.get_children():
+            item_table.delete(items)
+
+    
+    def remove_table_item():
+        selected_table_item = {}
+        values = []
+        del_item = {}
+
+        item = item_table.focus()
+        selected_table_item.update(item_table.item(item))
+        for x in selected_table_item["values"]:
+            values.append(x)
+        del_item["item name"] = values[0]
+
+        query = items.delete_one(del_item)
+        
+        item_table.delete(item)
+
+    ##### Table #####
+
+    
+
+
+    item_disp_btn = CTkButton(
+        item_disp_btn_frame,
+        text="show items",
+        text_color="black",
+        fg_color=btn_light,
+        text_font=(helvetica, 10, "bold"),
+        height=107,
+        width=107,
+        image=item_disp_btn_img,
+        compound="bottom",
+        hover_color="#a172fb",
+        command=_get_items
+    )
+    item_disp_btn.grid(row=0, column=0, padx=5, pady=6)
+
+    item_del_btn = CTkButton(
+        item_disp_btn_frame,
+        text="Delete item",
+        text_color="black",
+        fg_color="#9E1B32",
+        text_font=(helvetica, 10, "bold"),
+        height=107,
+        width=107,
+         image=category_del_btn_icon,
+        compound="bottom",
+        hover_color="#a172fb",
+        command=remove_table_item
+    )
+    item_del_btn.grid(row=0, column=1, padx=5, pady=6)
+
+
 
 
     # ######### Item display #########
