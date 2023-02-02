@@ -11,7 +11,7 @@ db = db_client["office_manager"]
 create_manager = db["manager"]
 
 ####constants
-new_dark = "#000000"
+new_dark = "#0f0f0f"
 basic_font = "comic Sans Ms"
 btn_dark = "#56f1bf"
 btn_light = "#b5bfcb"
@@ -151,6 +151,7 @@ login_password = ct.CTkEntry(
     height=35
 )
 login_password.grid(row=3, column=0, padx=10, pady=10, sticky="nsew")
+login_password.configure(show="*")
 
 login_icon = Image.open(PATH + "\img\enter.png").resize((28,28))
 login_icon = ImageTk.PhotoImage(login_icon)

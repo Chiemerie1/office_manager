@@ -14,9 +14,10 @@ category = db["category"]
 items = db["items"]
 
 
-new_dark = "#000000"
+new_dark = "#0f0f0f"
 btn_dark = "#475e69"
 btn_light = "#56f1bf"
+purple = "#a172fb"
 
 helvetica = "comic Sans Ms"
 
@@ -552,8 +553,8 @@ def admin():
             add_item["category_id"] = category_list.get(x)
         if len(add_item) == 1:
             add_item["item name"] = item_name.get()
-            add_item["price"] = item_price.get()
-            add_item["item stock"] = item_stock.get()
+            add_item["price"] = float(item_price.get())
+            add_item["item stock"] = int(item_stock.get())
         else:
             raise ValueError("select an category to continue")
         print(add_item)
@@ -722,7 +723,7 @@ def admin():
 
     cat_delete = CTkButton(
         action_btn_frame,
-        text="Delete",
+        text="Delete\n category",
         text_color="gray",
         fg_color="#9E1B32",
         text_font=(helvetica, 10, "bold"),
@@ -807,8 +808,14 @@ def admin():
         count = 0
         for item in get_items:
             print(item["item name"])
-            item_table.insert(parent="", index=END, iid=count, text="", values=(item["item name"], int(item["price"]), int(item["item stock"])))
+            item_table.insert(parent="", index=END, iid=count, text="", values=(item["item name"], item["price"], item["item stock"]))
             count +=1
+
+        total_label.configure(text="#"+total_item_price())
+
+        _item_total_price()
+
+
         
     def _clear_tree():
         for items in item_table.get_children():
@@ -827,13 +834,10 @@ def admin():
         del_item["item name"] = values[0]
 
         query = items.delete_one(del_item)
-        
+
         item_table.delete(item)
 
     ##### Table #####
-
-    
-
 
     item_disp_btn = CTkButton(
         item_disp_btn_frame,
@@ -852,8 +856,8 @@ def admin():
 
     item_del_btn = CTkButton(
         item_disp_btn_frame,
-        text="Delete item",
-        text_color="black",
+        text="Delete \n item",
+        text_color="gray",
         fg_color="#9E1B32",
         text_font=(helvetica, 10, "bold"),
         height=107,
@@ -865,68 +869,94 @@ def admin():
     )
     item_del_btn.grid(row=0, column=1, padx=5, pady=6)
 
-
-
-
-    # ######### Item display #########
-
-    # item_display_frame = CTkFrame(
-    #     inventory_main,
-    # )
-    # item_display_frame.grid(row=0, column=1, padx=10, pady=5, sticky="news")
-
-    # item_inner_frame = CTkFrame(
-    #     item_display_frame,
-    # )
-    # item_inner_frame.grid(row=0, column=1, padx=10, pady=5, sticky="news")
-
-    # item_disp_title = CTkLabel(item_inner_frame, text="Items", text_font=(helvetica, 10, "bold"))
-    # item_disp_title.grid(row=0, column=0, sticky="news")
-
-    # item_admin_list = Listbox(
-    #     item_inner_frame,
-    #     activestyle="dotbox",
-    #     bg=new_dark,
-    #     highlightcolor=btn_dark,
-    #     selectbackground=btn_dark,
-    #     takefocus=TRUE,
-    #     font=(helvetica, 12, "bold"),
-    #     fg="white",
-    #     width=50
-    # )
-    # item_admin_list.grid(row=1, column=0, sticky="news")
-
-    # item_list_scrollbar = CTkScrollbar(item_inner_frame, fg_color=new_dark, command=item_admin_list.yview)
-    # item_list_scrollbar.grid(row=1, column=1, sticky="ns")
-    # item_admin_list.configure(yscrollcommand=item_list_scrollbar.set)
-
-    # ##### show item function #####
-    # def _item_disp():
-    #     item_admin_list.delete(0, END)
-    #     _retriev_item()
-        
-    # def _retriev_item():
-    #     items_query = {}
-    #     for i in category_list.curselection():
-    #         items_query["category_id"] = category_list.get(i)
-    #     items_db_query = items.find(items_query)
-    #     for item in items_db_query:
-    #         item_admin_list.insert(END, item["item name"] +" " + " " + item["price"] +" " + " " + item["item stock"])
-
-    # show_item_btn = CTkButton(
-    #     item_inner_frame,
-    #     text="show item",
-    #     fg_color=btn_dark,
-    #     text_font=(helvetica, 10, "bold"),
-    #     height=35,
-    #     width=250,
-    #     hover_color=new_dark,
-    #     command=_item_disp
-    # )
-    # show_item_btn.grid(row=2, column=0, padx=10, pady=10, columnspan=2, sticky="news")
+    display_label = CTkFrame(
+        item_disp_btn_frame,
+        height=107,
+        width=200,
+        fg_color=btn_light
+    )
+    display_label.grid(row=0, column=2, padx=5, pady=6)
 
     
-    ######### Item display #########
+   ########### price calculation
+    def total_item_price():
+        pipeline = [
+            {"$group": {"_id": "null", "total_amount": {"$sum": "$price"}}}
+        ]
+        _sum_ = items.aggregate(pipeline)
+
+        res = [i["total_amount"] for i in _sum_]
+        return str(res[0])
+
+   ########### price calculation
+        
+
+    total_price_title_label = CTkLabel(
+        display_label,
+        text="total",
+        text_font=(helvetica, 9, "bold"),
+        text_color="black",
+        anchor="nw",
+        fg_color=btn_light
+    )
+    total_price_title_label.grid(row=0, column=0, pady=10, ipady=0)
+
+    total_label = CTkLabel(
+        display_label,
+        text="amount",
+        text_font=(helvetica, 12, "bold"),
+        text_color="black",
+        fg_color=btn_light
+    )
+    total_label.grid(row=1, column=0, pady=10)
+
+
+
+    item_total_title_frame = CTkFrame(
+        item_disp_btn_frame,
+        height=107,
+        width=200,
+        fg_color=btn_light,
+    )
+    item_total_title_frame.grid(row=0, column=3, padx=5, pady=6)
+
+
+    def _item_total_price():
+        select_table_item = {}
+        value = []
+        calc = {}
+
+        item = item_table.focus()
+        select_table_item.update(item_table.item(item))
+        print(select_table_item)
+
+        print(value)
+
+
+
+    item_total = CTkLabel(
+        item_total_title_frame,
+        text="item total",
+        text_font=(helvetica, 9, "bold"),
+        text_color="black",
+        anchor="nw",
+        fg_color=btn_light
+    )
+    item_total.grid(row=0, column=0, pady=10, ipady=0)
+
+    item_total_label = CTkLabel(
+        item_total_title_frame,
+        text="amount",
+        text_font=(helvetica, 12, "bold"),
+        text_color="black",
+        fg_color=btn_light
+    )
+    item_total_label.grid(row=1, column=0, pady=10)
+
+
+
+    _get_items()
+
 
     ###### Inventory #######
 
