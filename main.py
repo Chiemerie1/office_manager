@@ -140,6 +140,7 @@ login_username = ct.CTkEntry(
     takefocus=True
 )
 login_username.grid(row=2, column=0, padx=10, pady=10, sticky="nsew")
+login_username.focus_set()
 
 
 login_password = ct.CTkEntry(

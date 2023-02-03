@@ -767,15 +767,15 @@ def admin():
     ##### Table #####
     item_table = ttk.Treeview(
         item_disp_frame,
-        height=19,
+        height=19
     )
 
     item_table["columns"] = ("Item name", "Price", "Item stock")
 
     item_table.column("#0", width=0, stretch=NO)
-    item_table.column("Item name", width=200, anchor=W, minwidth=200)
-    item_table.column("Price", width=200, anchor=CENTER, minwidth=200)
-    item_table.column("Item stock", width=200, anchor=CENTER, minwidth=200)
+    item_table.column("Item name", width=210, anchor=W, minwidth=200)
+    item_table.column("Price", width=210, anchor=CENTER, minwidth=200)
+    item_table.column("Item stock", width=210, anchor=CENTER, minwidth=200)
 
     item_table.heading("#0", text="", anchor=W)
     item_table.heading("Item name", text="Item name", anchor=W)
@@ -813,8 +813,6 @@ def admin():
 
         total_label.configure(text="#"+total_item_price())
 
-        _item_total_price()
-
 
         
     def _clear_tree():
@@ -845,8 +843,8 @@ def admin():
         text_color="black",
         fg_color=btn_light,
         text_font=(helvetica, 10, "bold"),
-        height=107,
-        width=107,
+        height=100,
+        width=100,
         image=item_disp_btn_img,
         compound="bottom",
         hover_color="#a172fb",
@@ -860,8 +858,8 @@ def admin():
         text_color="gray",
         fg_color="#9E1B32",
         text_font=(helvetica, 10, "bold"),
-        height=107,
-        width=107,
+        height=100,
+        width=100,
          image=category_del_btn_icon,
         compound="bottom",
         hover_color="#a172fb",
@@ -871,8 +869,8 @@ def admin():
 
     display_label = CTkFrame(
         item_disp_btn_frame,
-        height=107,
-        width=200,
+        height=100,
+        width=100,
         fg_color=btn_light
     )
     display_label.grid(row=0, column=2, padx=5, pady=6)
@@ -914,25 +912,29 @@ def admin():
 
     item_total_title_frame = CTkFrame(
         item_disp_btn_frame,
-        height=107,
-        width=200,
+        height=100,
+        width=100,
         fg_color=btn_light,
     )
     item_total_title_frame.grid(row=0, column=3, padx=5, pady=6)
 
 
     def _item_total_price():
-        select_table_item = {}
-        value = []
-        calc = {}
+        pipeline = [
+            {
+                "$set": {
+                    "total": {"$multiply": ["$price", "$item stock"]}
+                }
+            }
+        ]
+        res = items.aggregate(pipeline)
+        mul_res = [x for x in res]
+        print(mul_res)
 
-        item = item_table.focus()
-        select_table_item.update(item_table.item(item))
-        print(select_table_item)
+        
+        
 
-        print(value)
-
-
+  
 
     item_total = CTkLabel(
         item_total_title_frame,
@@ -952,6 +954,20 @@ def admin():
         fg_color=btn_light
     )
     item_total_label.grid(row=1, column=0, pady=10)
+
+
+    calculate = CTkButton(
+        item_disp_btn_frame,
+        text="calc",
+        text_font=(helvetica, 12, "bold"),
+        text_color="black",
+        fg_color=purple,
+        command= _item_total_price,
+        height=100,
+        width=100,
+        hover_color=btn_light
+    )
+    calculate.grid(row=0, column=4, pady=10, padx=10)
 
 
 
